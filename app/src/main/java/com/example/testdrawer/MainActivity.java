@@ -134,10 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         currentFragment = TimerFragment.newInstance(Integer.toString(id), dbHelper);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
 
-
         navigationView.setCheckedItem(id);
-
-
 
         return true;
     }

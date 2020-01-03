@@ -102,57 +102,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         skip_button.setOnClickListener(this);
         reverse_button.setOnClickListener(this);
 
-        /*
-        timer_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TimerRunning){
-                    pauseTimer();
-                }else{
-                    startTimer(true);
-                }
-            }
-        });
-
-        skip_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentPos + 1 < elements.size()) {
-                    currentPos++;
-                    if (TimerRunning) {
-                        mCountDownTimer.cancel();
-                        startTimer(false);
-                    } else {
-                        setLabels();
-                    }
-                }
-            }
-        });
-
-        reverse_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentPos > 0) {
-                    currentPos--;
-                    if (TimerRunning) {
-                        mCountDownTimer.cancel();
-                        startTimer(false);
-                    } else {
-                        setLabels();
-                    }
-                }
-            }
-        });
-
-        setLabels();
-
-        //Load MediaPlayer
-        high_player = MediaPlayer.create(this, R.raw.middle_beep);
-        low_player = MediaPlayer.create(this, R.raw.low_beep);
-
-        timer = new Timer();
-
-         */
     }
 
     @Override
@@ -188,6 +137,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             TimerService.TimerBinder binder = (TimerService.TimerBinder) service;
             mService = binder.getService();
             myServiceBound = true;
+            timer_button.setImageResource(mService.isPaused ? R.drawable.ic_play_arrow_32px : R.drawable.ic_pause_black_40dp);
         }
 
         @Override

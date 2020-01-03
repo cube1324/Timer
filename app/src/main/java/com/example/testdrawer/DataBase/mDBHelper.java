@@ -42,11 +42,13 @@ public class mDBHelper extends SQLiteOpenHelper implements Serializable {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(NavDrawerItem.NavDrawerEntry.TABLE_NAME, null, null, null, null, null, null);
 
+        //If Elements are in the Database
         if (cursor.moveToFirst()){
             do {
                 menu.add(R.id.timer_group, cursor.getInt(0),Menu.NONE, cursor.getString(1)).setIcon(cursor.getInt(2)).setCheckable(true);
             } while (cursor.moveToNext());
         }else{
+            //Add First Item and repeat
             addMenuItem("New Timer", R.drawable.ic_timer_black_24dp, menu);
             populateMenu(menu);
         }

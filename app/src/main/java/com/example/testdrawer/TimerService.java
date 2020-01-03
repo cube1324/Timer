@@ -69,7 +69,6 @@ public class TimerService extends Service {
             mTimeLeft = elements.get(currentPos).getNumber();
         }
 
-        //TODO broken
         Intent timerIntent = new Intent(this, TimerActivity.class);
         timerIntent.putExtra("data", elements);
         pendingIntent = PendingIntent.getActivity(this, 0, timerIntent, 0);
