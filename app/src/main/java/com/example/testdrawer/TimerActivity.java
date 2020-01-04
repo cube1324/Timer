@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import static com.example.testdrawer.TimerService.ELEMENTS_MESSAGE;
+import static com.example.testdrawer.TimerService.UPDATE_BUTTON_BOOL;
+import static com.example.testdrawer.TimerService.UPDATE_BUTTON_RESOURCE;
 import static com.example.testdrawer.TimerService.UPDATE_CURRENT_LOOP;
 import static com.example.testdrawer.TimerService.UPDATE_CURRENT_NAME;
 import static com.example.testdrawer.TimerService.UPDATE_CURRENT_REPETITIONS;
@@ -120,6 +122,12 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            if (intent.getBooleanExtra(UPDATE_BUTTON_BOOL, false)){
+                final AnimatedVectorDrawableCompat avd = AnimatedVectorDrawableCompat.create(getApplicationContext(), intent.getIntExtra(UPDATE_BUTTON_RESOURCE, R.drawable.play_to_pause_anim));
+                timer_button.setImageDrawable(avd);
+                avd.start();
+            }
+
             if (intent.getBooleanExtra(UPDATE_NAMES_BOOL, false)){
                 name_view.setText(intent.getStringExtra(UPDATE_CURRENT_NAME));
                 loop_name.setText(intent.getStringExtra(UPDATE_CURRENT_LOOP));

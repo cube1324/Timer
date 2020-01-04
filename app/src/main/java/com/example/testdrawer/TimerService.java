@@ -42,6 +42,8 @@ public class TimerService extends Service {
     public static final String UPDATE_TIMER = "update_timer";
     public static final String UPDATE_CURRENT_LOOP = "update_loop_name";
     public static final String UPDATE_CURRENT_REPETITIONS = "update_loop_repetitions";
+    public static final String UPDATE_BUTTON_BOOL = "update_button";
+    public static final String UPDATE_BUTTON_RESOURCE = "update_button_resource";
 
     private static final int CHANEL_ID = 1;
 
@@ -86,6 +88,13 @@ public class TimerService extends Service {
         updateUI(true);
         return START_NOT_STICKY;
     }
+    private void updateButton(){
+        Intent message = new Intent(UPDATE_UI);
+
+        message.putExtra(UPDATE_BUTTON_BOOL,  true);
+        message.putExtra(UPDATE_BUTTON_RESOURCE, R.drawable.pause_to_play_anim);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(message);
+    }
 
     private void updateUI(boolean updateNames){
         //Send message to TimerActivity to update UI
@@ -95,7 +104,7 @@ public class TimerService extends Service {
             message.putExtra(UPDATE_CURRENT_NAME, elements.get(currentPos).getName());
             message.putExtra(UPDATE_CURRENT_LOOP, elements.get(currentPos).getCurrentLoopName());
             message.putExtra(UPDATE_CURRENT_REPETITIONS, elements.get(currentPos).getCurrentLoopNum());
-            message.putExtra(UPDATE_NEXT_NAME, currentPos+1 < elements.size() ? elements.get(currentPos).getName() : "Done");
+            message.putExtra(UPDATE_NEXT_NAME, currentPos+1 < elements.size() ? elements.get(currentPos+1).getName() : "Done");
 
             contentView.setTextViewText(R.id.name_view, elements.get(currentPos).getName());
             contentView.setTextViewText(R.id.next_name_view, currentPos+1 < elements.size() ? elements.get(currentPos).getName() : "Done");
@@ -133,19 +142,6 @@ public class TimerService extends Service {
         }
     }
 
-    /*
-    public Map<String, String> getUI(){
-        Map<String, String> map = new HashMap<>();
-        map.put(UPDATE_CURRENT_NAME, elements.get(currentPos).getName());
-        map.put(UPDATE_CURRENT_LOOP, elements.get(currentPos).getCurrentLoopName());
-        map.put(UPDATE_CURRENT_REPETITIONS, elements.get(currentPos).getCurrentLoopNum());
-        map.put(UPDATE_TIMER, formatTime(mTimeLeft));
-        map.put(UPDATE_NEXT_NAME, currentPos+1 < elements.size() ? elements.get(currentPos+1).getName() : "Done");
-
-        return map;
-    }
-     */
-
     public void skipButton(){
         //TODO
     }
@@ -177,6 +173,8 @@ public class TimerService extends Service {
                 }else {
                     currentPos = 0;
                     isPaused = true;
+                    mTimeLeft = elements.get(currentPos).getNumber();
+                    updateButton();
                     updateUI(true);
                 }
             }
