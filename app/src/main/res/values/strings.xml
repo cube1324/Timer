@@ -12,6 +12,6 @@
     <string name="action_add_loop">Add new Loop</string>
     <string name="loopstart_repeat">Repeat</string>
     <string name="loopstart_times">times</string>
-    <string name="loopend_repeat">end repeat</string>
+    <string name="loopend_repeat">End Repeat:</string>
 
 </resources>

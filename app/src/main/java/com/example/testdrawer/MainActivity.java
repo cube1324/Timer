@@ -71,35 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
-        /*
-        if (savedInstanceState == null){
-            int id = navigationView.getMenu().getItem(1).getItemId();
-            currentFragment = TimerFragment.newInstance(Integer.toString(id), dbHelper);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
-
-            id = 1;
-            navigationView.setCheckedItem(id);
-        }
-
-         */
-
-    }
-
-    @Override
-    protected void onResume() {
-        /*
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-
-        int id = sharedPreferences.getInt(SHARED_ID, navigationView.getMenu().getItem(1).getItemId());
-        currentFragment = TimerFragment.newInstance(Integer.toString(id), dbHelper);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
-
-
-        navigationView.setCheckedItem(id);
-
-         */
-        super.onResume();
     }
 
     @Override
@@ -130,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 
-        int id = sharedPreferences.getInt(SHARED_ID, navigationView.getMenu().getItem(1).getItemId());
+        int id = sharedPreferences.getInt(SHARED_ID, navigationView.getMenu().getItem(0).getItemId());
         currentFragment = TimerFragment.newInstance(Integer.toString(id), dbHelper);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
 
@@ -202,7 +173,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putInt(SHARED_ID, navigationView.getMenu().getItem(0).getItemId());
+        editor.putInt(SHARED_ID, navigationView.getCheckedItem().getItemId());
+        editor.apply();
         super.onStop();
     }
 }

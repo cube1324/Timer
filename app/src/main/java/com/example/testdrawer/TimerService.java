@@ -116,6 +116,8 @@ public class TimerService extends Service {
 
         //Update notification and apply changes
         contentView.setTextViewText(R.id.timer_view, formatTime(mTimeLeft));
+        contentView.setTextViewText(R.id.name_view, elements.get(currentPos).getName());
+        contentView.setTextViewText(R.id.next_name_view, currentPos+1 < elements.size() ? elements.get(currentPos+1).getName() : "Done");
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_timer_black_24dp)
