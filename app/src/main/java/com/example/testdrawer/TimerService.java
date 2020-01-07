@@ -16,6 +16,7 @@ import android.appwidget.AppWidgetManager;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.testdrawer.Support.ListElement;
@@ -73,7 +74,13 @@ public class TimerService extends Service {
 
         Intent timerIntent = new Intent(this, TimerActivity.class);
         timerIntent.putExtra("data", elements);
-        pendingIntent = PendingIntent.getActivity(this, 0, timerIntent, 0);
+
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+        taskStackBuilder.addNextIntentWithParentStack(timerIntent);
+
+        pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        //pendingIntent = PendingIntent.getActivity(this, 0, timerIntent, 0);
 
         contentView = new RemoteViews(getPackageName(), R.layout.timer_notification);
 
