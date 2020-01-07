@@ -80,7 +80,6 @@ public class TimerService extends Service {
 
         pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        //pendingIntent = PendingIntent.getActivity(this, 0, timerIntent, 0);
 
         contentView = new RemoteViews(getPackageName(), R.layout.timer_notification);
 
@@ -152,11 +151,27 @@ public class TimerService extends Service {
     }
 
     public void skipButton(){
-        //TODO
+        if (currentPos + 1 < elements.size()){
+            currentPos++;
+            updateUI(true);
+
+            if (!isPaused) {
+                mCountDownTimer.cancel();
+                startTimer();
+            }
+        }
     }
 
     public void reverseButton(){
-        //TODO
+        if (currentPos > 0){
+            currentPos--;
+            updateUI(true);
+
+            if (!isPaused){
+                mCountDownTimer.cancel();
+                startTimer();
+            }
+        }
     }
 
     private void startTimer(){
