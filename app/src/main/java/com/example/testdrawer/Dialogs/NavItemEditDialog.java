@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,19 +46,10 @@ public class NavItemEditDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
 
-        View v = inflater.inflate(R.layout.nav_item_edit_layout, null);
+        View v = inflater.inflate(R.layout.edit_nav_item_dialog, null);
 
         final EditText edit_name = v.findViewById(R.id.edit_navitem_name);
         edit_name.setText(navitem_titel);
-
-        ImageButton del_timer = v.findViewById(R.id.del_timer_button);
-        del_timer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onNavItemDelete(pos);
-                dismiss();
-            }
-        });
 
         builder.setView(v);
 

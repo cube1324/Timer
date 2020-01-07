@@ -2,6 +2,7 @@ package com.example.testdrawer;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        MenuItem current = navigationView.getCheckedItem();
+        final MenuItem current = navigationView.getCheckedItem();
         switch (item.getItemId()){
             case R.id.action_settings:
 
@@ -155,6 +157,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 NavItemEditDialog d = new NavItemEditDialog(current.getItemId(), current.getTitle().toString());
                 d.show(getSupportFragmentManager(), "Edit Timer");
                 return true;
+
+            case R.id.action_delete:
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialog.setTitle("Delete Timer");
+                alertDialog.setMessage("Do you want to delete the timer");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Delete",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                onNavItemDelete(current.getItemId());
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
 
             default:
                 return super.onOptionsItemSelected(item);
