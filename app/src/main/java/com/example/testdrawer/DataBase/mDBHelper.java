@@ -57,7 +57,7 @@ public class mDBHelper extends SQLiteOpenHelper implements Serializable {
         db.close();
     }
 
-   public void addMenuItem(String name, int icon_id, Menu menu){
+   public int addMenuItem(String name, int icon_id, Menu menu){
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -68,6 +68,7 @@ public class mDBHelper extends SQLiteOpenHelper implements Serializable {
         db.close();
 
         menu.add(R.id.timer_group, id, Menu.NONE, name).setIcon(icon_id).setCheckable(true);
+        return id;
    }
 
    public void editMenuItem(int id, String name, Menu menu){

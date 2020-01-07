@@ -78,7 +78,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch(menuItem.getItemId()){
 
             case R.id.nav_add:
-                dbHelper.addMenuItem("New Timer", R.drawable.ic_timer_black_24dp, navigationView.getMenu());
+                int id = dbHelper.addMenuItem(getString(R.string.new_timer_name), R.drawable.ic_timer_black_24dp, navigationView.getMenu());
+                toolbar.setTitle(getString(R.string.new_timer_name));
+
+                currentFragment = TimerFragment.newInstance(Integer.toString(id), dbHelper);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
+                navigationView.setCheckedItem(id);
+
                 break;
 
             default:
@@ -101,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 
-        int id = sharedPreferences.getInt(SHARED_ID, navigationView.getMenu().getItem(0).getItemId());
+        int id = sharedPreferences.getInt(SHARED_ID, navigationView.getMenu().getItem(1).getItemId());
         currentFragment = TimerFragment.newInstance(Integer.toString(id), dbHelper);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
 
@@ -118,11 +124,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         currentFragment.save = false;
         deleteFile("data"+pos);
 
-        int id = navigationView.getMenu().getItem(1).getItemId();
+        MenuItem replacement = navigationView.getMenu().getItem(1);
+
+        int id = replacement.getItemId();
         currentFragment = TimerFragment.newInstance(Integer.toString(id), dbHelper);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
 
-        id = 1;
+        toolbar.setTitle(replacement.getTitle());
+
         navigationView.setCheckedItem(id);
     }
 
