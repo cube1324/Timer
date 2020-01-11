@@ -22,16 +22,17 @@ import com.example.testdrawer.Dialogs.TimerEditDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NavItemEditDialog.NavItemEditListener , LoopEditDialog.LoopEditListener, TimerEditDialog.TimerEditListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NavItemEditDialog.NavItemEditListener , LoopEditDialog.LoopEditListener, TimerEditDialog.TimerEditListener, View.OnClickListener {
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private mDBHelper dbHelper;
     private Toolbar toolbar;
     private FloatingActionButton timer_button;
-    TimerFragment currentFragment;
+    private TimerFragment currentFragment;
     private boolean isFabOpen = false;
-    FloatingActionButton add_loop;
-    FloatingActionButton add_timer;
+    private FloatingActionButton add_toggle;
+    private FloatingActionButton add_loop;
+    private FloatingActionButton add_timer;
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String SHARED_ID = "id";
@@ -63,19 +64,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        FloatingActionButton add_toggle = findViewById(R.id.add_button);
+        add_toggle = findViewById(R.id.add_button);
         add_loop = findViewById(R.id.add_loop_button);
         add_timer = findViewById(R.id.add_timer_button);
-        add_toggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+        add_toggle.setOnClickListener(this);
+        add_loop.setOnClickListener(this);
+        add_timer.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.add_button:
                 if (isFabOpen){
                     hideFabMenu();
                 }else {
                     showFabMenu();
                 }
-            }
-        });
+                break;
+            case R.id.add_loop_button:
+                currentFragment.addLoop();
+                hideFabMenu();
+                break;
+            case R.id.add_timer_button:
+                currentFragment.addTimer();
+                hideFabMenu();
+                break;
+        }
     }
 
     private void showFabMenu(){
@@ -88,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         isFabOpen = false;
         add_loop.animate().translationY(0);
         add_timer.animate().translationY(0);
+        add_toggle.bringToFront();
     }
 
     @Override
