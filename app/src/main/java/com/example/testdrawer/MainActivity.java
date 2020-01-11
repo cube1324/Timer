@@ -6,34 +6,21 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.testdrawer.DataBase.NavDrawerItem;
 import com.example.testdrawer.DataBase.mDBHelper;
 import com.example.testdrawer.Dialogs.LoopEditDialog;
 import com.example.testdrawer.Dialogs.NavItemEditDialog;
 import com.example.testdrawer.Dialogs.TimerEditDialog;
-import com.example.testdrawer.Support.ListElement;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NavItemEditDialog.NavItemEditListener , LoopEditDialog.LoopEditListener, TimerEditDialog.TimerEditListener {
     private DrawerLayout drawer;
@@ -42,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private FloatingActionButton timer_button;
     TimerFragment currentFragment;
+    private boolean isFabOpen = false;
+    FloatingActionButton add_loop;
+    FloatingActionButton add_timer;
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String SHARED_ID = "id";
@@ -73,6 +63,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        FloatingActionButton add_toggle = findViewById(R.id.add_button);
+        add_loop = findViewById(R.id.add_loop_button);
+        add_timer = findViewById(R.id.add_timer_button);
+        add_toggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFabOpen){
+                    hideFabMenu();
+                }else {
+                    showFabMenu();
+                }
+            }
+        });
+    }
+
+    private void showFabMenu(){
+        isFabOpen = true;
+        add_loop.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        add_timer.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+    }
+
+    private void hideFabMenu(){
+        isFabOpen = false;
+        add_loop.animate().translationY(0);
+        add_timer.animate().translationY(0);
     }
 
     @Override
