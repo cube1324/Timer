@@ -8,12 +8,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.testdrawer.DataBase.mDBHelper;
 import com.example.testdrawer.Dialogs.LoopEditDialog;
@@ -29,10 +32,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private FloatingActionButton timer_button;
     private TimerFragment currentFragment;
-    private boolean isFabOpen = false;
-    private FloatingActionButton add_toggle;
-    private FloatingActionButton add_loop;
-    private FloatingActionButton add_timer;
+
+    private FloatingActionButton fab;
+    private LinearLayout fabLayout1, fabLayout2;
+    private View fabBGLayout;
+    boolean isFABOpen = false;
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String SHARED_ID = "id";
@@ -45,12 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         timer_button = findViewById(R.id.start_timer_button);
-        timer_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentFragment.startTimer();
-            }
-        });
+        timer_button.setOnClickListener(this);
 
         dbHelper = new mDBHelper(this);
 
@@ -64,47 +63,90 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        add_toggle = findViewById(R.id.add_button);
-        add_loop = findViewById(R.id.add_loop_button);
-        add_timer = findViewById(R.id.add_timer_button);
+        fabLayout1 = findViewById(R.id.fabLayout1);
+        fabLayout2 = findViewById(R.id.fabLayout2);
+        fab = findViewById(R.id.fab);
+        FloatingActionButton fab1 = findViewById(R.id.fab1);
+        FloatingActionButton fab2 = findViewById(R.id.fab2);
+        fabBGLayout = findViewById(R.id.fabBGLayout);
 
-        add_toggle.setOnClickListener(this);
-        add_loop.setOnClickListener(this);
-        add_timer.setOnClickListener(this);
+        fab.setOnClickListener(this);
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
+        fabBGLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeFABMenu();
+            }
+        });
     }
+
+    private void showFABMenu() {
+        isFABOpen = true;
+        fabLayout1.setVisibility(View.VISIBLE);
+        fabLayout2.setVisibility(View.VISIBLE);
+        //fabBGLayout.setVisibility(View.VISIBLE);
+        fab.animate().rotation(45);
+        fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+    }
+
+    private void closeFABMenu() {
+        isFABOpen = false;
+        fabBGLayout.setVisibility(View.GONE);
+        fab.animate().rotation(0);
+        fabLayout1.animate().translationY(0);
+        fabLayout2.animate().translationY(0);
+        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if (!isFABOpen) {
+                    fabLayout1.setVisibility(View.GONE);
+                    fabLayout2.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+    }
+
+
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.add_button:
-                if (isFabOpen){
-                    hideFabMenu();
-                }else {
-                    showFabMenu();
+            case R.id.fab:
+                if (!isFABOpen) {
+                    showFABMenu();
+                } else {
+                    closeFABMenu();
                 }
                 break;
-            case R.id.add_loop_button:
+            case R.id.fab1:
                 currentFragment.addLoop();
-                hideFabMenu();
+                closeFABMenu();
                 break;
-            case R.id.add_timer_button:
+            case R.id.fab2:
                 currentFragment.addTimer();
-                hideFabMenu();
+                closeFABMenu();
+                break;
+            case R.id.start_timer_button:
+                currentFragment.startTimer();
                 break;
         }
-    }
-
-    private void showFabMenu(){
-        isFabOpen = true;
-        add_loop.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        add_timer.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-    }
-
-    private void hideFabMenu(){
-        isFabOpen = false;
-        add_loop.animate().translationY(0);
-        add_timer.animate().translationY(0);
-        add_toggle.bringToFront();
     }
 
     @Override
@@ -175,14 +217,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.action_settings:
 
-                return true;
-
-            case R.id.action_add_timer:
-                currentFragment.addTimer();
-                return true;
-
-            case R.id.action_add_loop:
-                currentFragment.addLoop();
                 return true;
 
             case R.id.action_edit_timer:
