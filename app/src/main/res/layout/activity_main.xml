@@ -33,6 +33,14 @@
                 android:layout_height="match_parent">
             </FrameLayout>
 
+            <com.github.mmin18.widget.RealtimeBlurView
+                android:id="@+id/fabBGLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:realtimeBlurRadius="4px"
+                app:realtimeOverlayColor="#88FFFFFF"/>
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/start_timer_button"
                 android:layout_width="wrap_content"
@@ -41,13 +49,6 @@
                 android:layout_margin="16dp"
                 android:src="@drawable/ic_play_arrow_32px"
                 app:maxImageSize="32dp" />
-
-            <View
-                android:id="@+id/fabBGLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimaryDark"
-                android:visibility="gone"/>
 
 
             <LinearLayout
