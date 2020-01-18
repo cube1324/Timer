@@ -33,13 +33,13 @@
                 android:layout_height="match_parent">
             </FrameLayout>
 
-            <com.github.mmin18.widget.RealtimeBlurView
-                android:id="@+id/fabBGLayout"
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/fabBGLayout"
                 android:visibility="gone"
-                app:realtimeBlurRadius="4px"
-                app:realtimeOverlayColor="#88FFFFFF"/>
+                android:background="#B4B4B4"
+                android:alpha="0.0"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/start_timer_button"
@@ -78,7 +78,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Loop" />
+                    android:id="@+id/fabText1"
+                    android:text="Add Loop"
+                    android:background="@drawable/textview_background"
+                    android:padding="2dp"
+                    android:alpha="0"/>
 
 
             </LinearLayout>
@@ -105,7 +109,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Timer"/>
+                    android:id="@+id/fabText2"
+                    android:text="Add Timer"
+                    android:background="@drawable/textview_background"
+                    android:padding="2dp"
+                    android:alpha="0"/>
 
             </LinearLayout>
 

@@ -9,6 +9,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.testdrawer.DataBase.mDBHelper;
 import com.example.testdrawer.Dialogs.LoopEditDialog;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FloatingActionButton fab;
     private LinearLayout fabLayout1, fabLayout2;
     private View fabBGLayout;
+    private TextView fabText1, fabText2;
     boolean isFABOpen = false;
 
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -66,9 +69,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fabLayout1 = findViewById(R.id.fabLayout1);
         fabLayout2 = findViewById(R.id.fabLayout2);
         fab = findViewById(R.id.fab);
+
         FloatingActionButton fab1 = findViewById(R.id.fab1);
         FloatingActionButton fab2 = findViewById(R.id.fab2);
         fabBGLayout = findViewById(R.id.fabBGLayout);
+
+        fabText1 = findViewById(R.id.fabText1);
+        fabText2 = findViewById(R.id.fabText2);
 
         fab.setOnClickListener(this);
         fab1.setOnClickListener(this);
@@ -86,6 +93,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fabLayout1.setVisibility(View.VISIBLE);
         fabLayout2.setVisibility(View.VISIBLE);
         fabBGLayout.setVisibility(View.VISIBLE);
+        fabBGLayout.animate().alpha(0.7f).setDuration(400).setListener(null);
+        fabText1.animate().alpha(1f).setDuration(400).setListener(null);
+        fabText2.animate().alpha(1f).setDuration(400).setListener(null);
+
         fab.animate().rotation(45);
         fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
@@ -93,32 +104,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void closeFABMenu() {
         isFABOpen = false;
-        fabBGLayout.setVisibility(View.GONE);
+        fabBGLayout.animate().alpha(0.0f).setDuration(400).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                fabBGLayout.setVisibility(View.GONE);
+            }
+        });
         fab.animate().rotation(0);
+
+        fabText1.animate().alpha(0f).setListener(null);
+        fabText2.animate().alpha(0f).setListener(null);
+
         fabLayout1.animate().translationY(0);
-        fabLayout2.animate().translationY(0);
-        fabLayout2.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+        fabLayout2.animate().translationY(0).setListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationStart(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
+            public void onAnimationEnd(Animator animation) {
                 if (!isFABOpen) {
-                    fabLayout1.setVisibility(View.GONE);
                     fabLayout2.setVisibility(View.GONE);
+                    fabLayout1.setVisibility(View.GONE);
                 }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-
             }
         });
     }
