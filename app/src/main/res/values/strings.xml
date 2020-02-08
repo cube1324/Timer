@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Test Drawer</string>
+    <string name="app_name">Code Timer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -16,4 +16,6 @@
     <string name="loopstart_times">times</string>
     <string name="loopend_repeat">End Repeat:</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="no_element_in_timer_message">There are no Elements in the Timer</string>
 </resources>

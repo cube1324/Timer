@@ -33,14 +33,6 @@
                 android:layout_height="match_parent">
             </FrameLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/fabBGLayout"
-                android:visibility="gone"
-                android:background="#B4B4B4"
-                android:alpha="0.0"/>
-
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/start_timer_button"
                 android:layout_width="wrap_content"
@@ -49,6 +41,14 @@
                 android:layout_margin="16dp"
                 android:src="@drawable/ic_play_arrow_32px"
                 app:maxImageSize="32dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/fabBGLayout"
+                android:visibility="gone"
+                android:background="#B4B4B4"
+                android:alpha="0.0"/>
 
 
             <LinearLayout
@@ -82,7 +82,9 @@
                     android:text="Add Loop"
                     android:background="@drawable/textview_background"
                     android:padding="2dp"
-                    android:alpha="0"/>
+                    android:layout_marginRight="2dp"
+                    android:alpha="0"
+                    android:elevation="2dp"/>
 
 
             </LinearLayout>
@@ -113,7 +115,9 @@
                     android:text="Add Timer"
                     android:background="@drawable/textview_background"
                     android:padding="2dp"
-                    android:alpha="0"/>
+                    android:layout_marginRight="2dp"
+                    android:alpha="0"
+                    android:elevation="2dp"/>
 
             </LinearLayout>
 
