@@ -214,8 +214,8 @@ public class TimerService extends Service {
     private void pauseTimer(){
         mCountDownTimer.cancel();
         isPaused = true;
-        //TODO update ui
     }
+
 
     @Override
     public void onDestroy() {

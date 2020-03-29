@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:src="@drawable/ic_loop_black_24dp"
-                    app:fabSize="mini"/>
+                    app:fabSize="mini" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -157,7 +157,7 @@
                 android:layout_gravity="bottom|left"
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/ic_add_30px"
-                app:fabSize="normal"/>
+                app:fabSize="normal" />
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

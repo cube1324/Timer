@@ -12,7 +12,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -227,7 +229,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(id);
         }else{
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, EmptyFragment.newInstance()).commit();
-
         }
     }
 
@@ -290,12 +291,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putInt(SHARED_ID, navigationView.getCheckedItem().getItemId());
         editor.apply();
-        super.onStop();
+        super.onPause();
     }
+
 }

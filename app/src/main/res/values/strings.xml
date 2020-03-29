@@ -18,4 +18,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="no_element_in_timer_message">There are no Elements in the Timer</string>
+    <string name="no_timer">No Timer available :(</string>
+    <string name="no_timer_desc">Add one from the Hamburger Menu on the Left</string>
 </resources>
