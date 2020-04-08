@@ -94,6 +94,7 @@ public class TimerService extends Service {
         low_player = MediaPlayer.create(this, R.raw.low_beep);
         return START_NOT_STICKY;
     }
+
     private void updateButton(){
         Intent message = new Intent(UPDATE_UI);
 

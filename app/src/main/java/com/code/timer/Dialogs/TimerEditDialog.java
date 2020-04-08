@@ -5,8 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
@@ -30,7 +32,7 @@ public class TimerEditDialog extends AppCompatDialogFragment {
 
 
     public interface TimerEditListener {
-        void onTimerEdit(int pos, String name, int seconds, int hour);
+        void onTimerEdit(int pos, String name, int seconds, int hour, boolean mkSound);
     }
 
     public TimerEditDialog(int pos, ListElementViewHolder holder){
@@ -98,6 +100,9 @@ public class TimerEditDialog extends AppCompatDialogFragment {
         seconds = Integer.valueOf(value.substring(5,7));
         seconds_picker.setValue(seconds);
 
+        final CheckBox mkSound = v.findViewById(R.id.mkSoundCheckBox);
+        mkSound.setChecked(holder.mkSound);
+
         builder.setView(v);
         builder.setNegativeButton(R.string.edit_dialog_negativ, new DialogInterface.OnClickListener() {
             @Override
@@ -108,9 +113,10 @@ public class TimerEditDialog extends AppCompatDialogFragment {
         builder.setPositiveButton(R.string.edit_dialog_positiv, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                listener.onTimerEdit(pos, edit_name.getText().toString(), minutes, seconds);
+                listener.onTimerEdit(pos, edit_name.getText().toString(), minutes, seconds, mkSound.isChecked());
             }
         });
+
         return builder.create();
     }
 }

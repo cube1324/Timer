@@ -58,7 +58,7 @@ public class ListElementAdapter extends RecyclerView.Adapter<ListElementViewHold
                 break;
             case 3:
                 //TODO
-                v = inf.inflate(R.layout.list_element_loopend_view, parent, false);
+                v = inf.inflate(R.layout.list_element_userinput_view, parent, false);
                 break;
             default:
                 v = inf.inflate(R.layout.list_element_timer_view, parent, false);
@@ -72,6 +72,7 @@ public class ListElementAdapter extends RecyclerView.Adapter<ListElementViewHold
         final ListElement current = elements.get(position);
 
         if (current instanceof TimerElement) {
+            holder.mkSound = ((TimerElement) current).getMakeSound();
             holder.duration_view.setText(current.getString());
             holder.name_view.setText(current.getName());
 
@@ -120,7 +121,8 @@ public class ListElementAdapter extends RecyclerView.Adapter<ListElementViewHold
         } else if (current instanceof LoopEndElement) {
             holder.name_view.setText(current.getName());
         } else if(current instanceof UserInputElement){
-            //TODO
+            holder.name_view.setText(current.getName());
+            //TODO Delete Button
         }
     }
 

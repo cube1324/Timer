@@ -23,6 +23,7 @@ import com.code.timer.Support.LoopEndElement;
 import com.code.timer.Support.LoopStartElement;
 import com.code.timer.Support.Parse;
 import com.code.timer.Support.TimerElement;
+import com.code.timer.Support.UserInputElement;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.FileInputStream;
@@ -292,11 +293,12 @@ public class TimerFragment extends Fragment {
         return v;
     }
 
-    public void onTimerEdit(int pos, String name, int minutes, int seconds) {
-        ListElement element = elements.get(pos);
+    public void onTimerEdit(int pos, String name, int minutes, int seconds, boolean mkSound) {
+        TimerElement element = (TimerElement) elements.get(pos);
         element.setName(name);
         long milliseconds = TimeUnit.MILLISECONDS.convert(seconds, TimeUnit.SECONDS) + TimeUnit.MILLISECONDS.convert(minutes, TimeUnit.MINUTES);
         element.setNumber(milliseconds);
+        element.setMakeSound(mkSound);
         adapter.notifyItemChanged(pos);
     }
 
@@ -326,6 +328,12 @@ public class TimerFragment extends Fragment {
        elements.add(end);
 
        adapter.notifyItemRangeInserted(elements.size()-2, 2);
+    }
+
+    public void addStop(){
+        Log.v("adwwadaw", "awdawdawd");
+        elements.add(new UserInputElement("New Stop"));
+        adapter.notifyItemInserted(elements.size()-1);
     }
 
     public void startTimer(){

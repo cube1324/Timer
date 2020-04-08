@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="16dp"
-                android:src="@drawable/ic_play_arrow_32px"
+                app:srcCompat="@drawable/ic_play_arrow_32px"
                 app:maxImageSize="32dp" />
 
             <View
@@ -72,14 +72,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:src="@drawable/ic_loop_black_24dp"
+                    app:srcCompat="@drawable/ic_loop_black_24dp"
                     app:fabSize="mini" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/fabText1"
-                    android:text="Add Loop"
+                    android:text="@string/add_loop"
                     android:background="@drawable/textview_background"
                     android:padding="2dp"
                     android:layout_marginRight="2dp"
@@ -105,19 +105,51 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:src="@drawable/ic_timer_black_24dp"
+                    app:srcCompat="@drawable/ic_timer_black_24dp"
                     app:fabSize="mini"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/fabText2"
-                    android:text="Add Timer"
+                    android:text="@string/add_timer"
                     android:background="@drawable/textview_background"
                     android:padding="2dp"
                     android:layout_marginRight="2dp"
                     android:alpha="0"
                     android:elevation="2dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fabLayout3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layout_marginLeft="13dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="23dp"
+                android:layout_gravity="bottom|left"
+                android:visibility="gone">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:srcCompat="@drawable/ic_pause_black_40dp"
+                    app:fabSize="mini" />
+
+                <TextView
+                    android:id="@+id/fabText3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:alpha="0"
+                    android:background="@drawable/textview_background"
+                    android:elevation="2dp"
+                    android:padding="2dp"
+                    android:text="@string/add_stop" />
 
             </LinearLayout>
 
@@ -156,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|left"
                 android:layout_margin="@dimen/fab_margin"
-                android:src="@drawable/ic_add_30px"
+                app:srcCompat="@drawable/ic_add_30px"
                 app:fabSize="normal" />
 
 
