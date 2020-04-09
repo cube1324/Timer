@@ -57,7 +57,6 @@ public class ListElementAdapter extends RecyclerView.Adapter<ListElementViewHold
                 v = inf.inflate(R.layout.list_element_loopend_view, parent, false);
                 break;
             case 3:
-                //TODO
                 v = inf.inflate(R.layout.list_element_userinput_view, parent, false);
                 break;
             default:

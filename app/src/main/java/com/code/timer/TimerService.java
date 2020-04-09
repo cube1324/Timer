@@ -19,6 +19,7 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.code.timer.Support.ListElement;
+import com.code.timer.Support.TimerElement;
 
 import java.util.ArrayList;
 
@@ -154,6 +155,20 @@ public class TimerService extends Service {
     public void skipButton(){
         if (currentPos + 1 < elements.size()){
             currentPos++;
+            mTimeLeft = elements.get(currentPos).getNumber();
+            updateUI(true);
+
+            if (!isPaused) {
+                mCountDownTimer.cancel();
+                startTimer();
+            }
+
+        }
+    }
+
+    public void reverseButton(){
+        if (mTimeLeft < elements.get(currentPos).getNumber()){
+            mTimeLeft = elements.get(currentPos).getNumber();
             updateUI(true);
 
             if (!isPaused) {
@@ -161,14 +176,12 @@ public class TimerService extends Service {
                 startTimer();
             }
         }
-    }
-
-    public void reverseButton(){
-        if (currentPos > 0){
+        else if (currentPos > 0){
             currentPos--;
+            mTimeLeft = elements.get(currentPos).getNumber();
             updateUI(true);
 
-            if (!isPaused){
+            if (!isPaused) {
                 mCountDownTimer.cancel();
                 startTimer();
             }
@@ -184,11 +197,13 @@ public class TimerService extends Service {
         mCountDownTimer = new CountDownTimer(mTimeLeft, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if (millisUntilFinished < 3000 && millisUntilFinished > 1000){
-                    low_player.start();
-                }
-                if (millisUntilFinished < 1000){
-                    high_player.start();
+                if(((TimerElement)elements.get(currentPos)).getMakeSound()) {
+                    if (millisUntilFinished < 4000 && millisUntilFinished > 1000) {
+                        low_player.start();
+                    }
+                    if (millisUntilFinished < 1000) {
+                        high_player.start();
+                    }
                 }
                 mTimeLeft = millisUntilFinished;
                 updateUI(false);
@@ -198,6 +213,7 @@ public class TimerService extends Service {
             public void onFinish() {
                 currentPos++;
                 if (currentPos < elements.size()){
+                    //TODO STOP ELEMENT
                     mTimeLeft = elements.get(currentPos).getNumber();
                     updateUI(true);
                     startTimer();

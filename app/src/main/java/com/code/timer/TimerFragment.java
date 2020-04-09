@@ -244,7 +244,7 @@ public class TimerFragment extends Fragment {
                     //Get  LoopEndElement
                     int related_pos = elements.indexOf(elements.get(pos).getRelatedElement());
 
-                    //set indent of Loopelement one back
+                    //set indent of Loop element one back
                     for (int i = pos + 1; i < related_pos; i++) {
                         elements.get(i).incDepthBy(-INDENT_INCREMENT);
                     }
@@ -331,7 +331,6 @@ public class TimerFragment extends Fragment {
     }
 
     public void addStop(){
-        Log.v("adwwadaw", "awdawdawd");
         elements.add(new UserInputElement("New Stop"));
         adapter.notifyItemInserted(elements.size()-1);
     }
