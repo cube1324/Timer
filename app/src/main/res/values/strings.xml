@@ -17,5 +17,7 @@
     <string name="loopend_repeat">End Repeat:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="no_element_in_timer_message">There are no Elements in the Timer</string>
+    <string name="no_element_snackbar">There are no Elements in the Timer</string>
+    <string name="delete_snackbar_text">Deleted Item</string>
+    <string name="delete_snackbar_undo">Restore</string>
 </resources>

@@ -46,6 +46,12 @@ public class TimerFragment extends Fragment {
     private LinkedList<ListElement> elements = new LinkedList<>();
     private ListElementAdapter adapter;
 
+    private ListElement deletedElement1 = null;
+    private ListElement deletedElement2 = null;
+    private int deletedElementPos1;
+    private int deletedElementPos2;
+    private int[] deletedRange = new int[2];
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -247,28 +253,52 @@ public class TimerFragment extends Fragment {
                     for (int i = pos + 1; i < related_pos; i++) {
                         elements.get(i).incDepthBy(-INDENT_INCREMENT);
                     }
-                    //delete both elements
-                    elements.remove(related_pos);
-                    adapter.notifyItemRemoved(related_pos);
 
-                    elements.remove(pos);
+                    //delete both elements
+                    deletedElement2 = elements.remove(related_pos);
+                    adapter.notifyItemRemoved(related_pos);
+                    deletedElementPos2 = related_pos;
+
+                    deletedElement1 = elements.remove(pos);
                     adapter.notifyItemRemoved(pos);
+                    deletedElementPos1 = pos;
 
                 }else if (elements.get(pos) instanceof  LoopEndElement){
                     int related_pos = elements.indexOf(elements.get(pos).getRelatedElement());
                     for (int i = related_pos + 1; i < pos; i++) {
                         elements.get(i).incDepthBy(-INDENT_INCREMENT);
                     }
-                    elements.remove(pos);
+                    //delete both elements
+                    deletedElement2 = elements.remove(pos);
                     adapter.notifyItemRemoved(pos);
+                    deletedElementPos2 = pos;
 
-                    elements.remove(related_pos);
+                    deletedElement1 = elements.remove(related_pos);
                     adapter.notifyItemRemoved(related_pos);
+                    deletedElementPos1 = related_pos;
                 }else{
-                    elements.remove(pos);
+                    deletedElement1 = elements.remove(pos);
                     adapter.notifyItemRemoved(pos);
+                    deletedElementPos1 = pos;
+                    deletedElement2 = null;
                 }
 
+                Snackbar snackbar = Snackbar.make(getView(), R.string.delete_snackbar_text, Snackbar.LENGTH_LONG);
+                snackbar.setAction(R.string.delete_snackbar_undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        elements.add(deletedElementPos1, deletedElement1);
+                        adapter.notifyItemInserted(deletedElementPos1);
+                        if (deletedElement2 != null){
+                            elements.add(deletedElementPos2, deletedElement2);
+                            adapter.notifyItemInserted(deletedElementPos2);
+                            for (int i = deletedElementPos1 + 1; i < deletedElementPos2; i++){
+                                elements.get(i).incDepthBy(INDENT_INCREMENT);
+                            }
+                        }
+                    }
+                });
+                snackbar.show();
             }
         });
         helper.attachToRecyclerView(recyclerView);
@@ -340,7 +370,7 @@ public class TimerFragment extends Fragment {
             startActivity(intent);
         }else{
             View view = getView();
-            Snackbar.make(view, R.string.no_element_in_timer_message, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, R.string.no_element_snackbar, Snackbar.LENGTH_SHORT).show();
         }
     }
 
