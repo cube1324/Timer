@@ -12,7 +12,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,9 +37,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TimerFragment currentFragment;
 
     private FloatingActionButton fab;
-    private LinearLayout fabLayout1, fabLayout2;
+    private LinearLayout fabLayout1, fabLayout2, fabLayout3;
     private View fabBGLayout;
-    private TextView fabText1, fabText2;
+    private TextView fabText1, fabText2, fabText3;
     boolean isFABOpen = false;
 
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -67,18 +69,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         fabLayout1 = findViewById(R.id.fabLayout1);
         fabLayout2 = findViewById(R.id.fabLayout2);
+        fabLayout3 = findViewById(R.id.fabLayout3);
+
         fab = findViewById(R.id.fab);
 
         FloatingActionButton fab1 = findViewById(R.id.fab1);
         FloatingActionButton fab2 = findViewById(R.id.fab2);
+        FloatingActionButton fab3 = findViewById(R.id.fab3);
+
         fabBGLayout = findViewById(R.id.fabBGLayout);
 
         fabText1 = findViewById(R.id.fabText1);
         fabText2 = findViewById(R.id.fabText2);
+        fabText3 = findViewById(R.id.fabText3);
 
         fab.setOnClickListener(this);
         fab1.setOnClickListener(this);
         fab2.setOnClickListener(this);
+        fab3.setOnClickListener(this);
+
         fabBGLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,14 +100,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         isFABOpen = true;
         fabLayout1.setVisibility(View.VISIBLE);
         fabLayout2.setVisibility(View.VISIBLE);
+        fabLayout3.setVisibility(View.VISIBLE);
         fabBGLayout.setVisibility(View.VISIBLE);
         fabBGLayout.animate().alpha(0.7f).setDuration(400).setListener(null);
         fabText1.animate().alpha(1f).setDuration(400).setListener(null);
         fabText2.animate().alpha(1f).setDuration(400).setListener(null);
+        fabText3.animate().alpha(1f).setDuration(400).setListener(null);
 
         fab.animate().rotationBy(135).setDuration(500);
         fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+        fabLayout3.animate().translationY(-getResources().getDimension(R.dimen.standard_155));
     }
 
     private void closeFABMenu() {
@@ -113,14 +125,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         fabText1.animate().alpha(0f).setListener(null);
         fabText2.animate().alpha(0f).setListener(null);
+        fabText3.animate().alpha(0f).setListener(null);
+
 
         fabLayout1.animate().translationY(0);
-        fabLayout2.animate().translationY(0).setListener(new AnimatorListenerAdapter() {
+        fabLayout2.animate().translationY(0);
+        fabLayout3.animate().translationY(0).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (!isFABOpen) {
                     fabLayout2.setVisibility(View.GONE);
                     fabLayout1.setVisibility(View.GONE);
+                    fabLayout3.setVisibility(View.GONE);
                 }
             }
         });
@@ -147,6 +163,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.fab2:
                 if (navigationView.getMenu().size() > 1) {
                     currentFragment.addTimer();
+                    closeFABMenu();
+                }
+                break;
+            case R.id.fab3:
+                if (navigationView.getMenu().size() > 1){
+                    Log.v("adwwadaw", "awdawdawd");
+                    currentFragment.addStop();
                     closeFABMenu();
                 }
                 break;
@@ -227,7 +250,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(id);
         }else{
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, EmptyFragment.newInstance()).commit();
-
         }
     }
 
@@ -285,17 +307,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onTimerEdit(int pos, String name, int seconds, int hour) {
-        currentFragment.onTimerEdit(pos, name, seconds, hour);
+    public void onTimerEdit(int pos, String name, int seconds, int hour, boolean mkSound) {
+        currentFragment.onTimerEdit(pos, name, seconds, hour, mkSound);
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putInt(SHARED_ID, navigationView.getCheckedItem().getItemId());
         editor.apply();
-        super.onStop();
+        super.onPause();
     }
+
 }

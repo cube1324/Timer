@@ -16,6 +16,7 @@ public class ListElementViewHolder extends RecyclerView.ViewHolder {
     public ImageButton edit_button;
     public ImageButton increase_button;
     public ImageButton decrease_button;
+    public boolean mkSound = true;
     public ListElementViewHolder(View v){
         super(v);
         name_view = v.findViewById(R.id.name_view);

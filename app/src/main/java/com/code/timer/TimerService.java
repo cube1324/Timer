@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 
@@ -19,6 +20,8 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.code.timer.Support.ListElement;
+import com.code.timer.Support.TimerElement;
+import com.code.timer.Support.UserInputElement;
 
 import java.util.ArrayList;
 
@@ -94,6 +97,7 @@ public class TimerService extends Service {
         low_player = MediaPlayer.create(this, R.raw.low_beep);
         return START_NOT_STICKY;
     }
+
     private void updateButton(){
         Intent message = new Intent(UPDATE_UI);
 
@@ -153,6 +157,20 @@ public class TimerService extends Service {
     public void skipButton(){
         if (currentPos + 1 < elements.size()){
             currentPos++;
+            mTimeLeft = elements.get(currentPos).getNumber();
+            updateUI(true);
+
+            if (!isPaused) {
+                mCountDownTimer.cancel();
+                startTimer();
+            }
+
+        }
+    }
+
+    public void reverseButton(){
+        if (mTimeLeft < elements.get(currentPos).getNumber()){
+            mTimeLeft = elements.get(currentPos).getNumber();
             updateUI(true);
 
             if (!isPaused) {
@@ -160,14 +178,12 @@ public class TimerService extends Service {
                 startTimer();
             }
         }
-    }
-
-    public void reverseButton(){
-        if (currentPos > 0){
+        else if (currentPos > 0){
             currentPos--;
+            mTimeLeft = elements.get(currentPos).getNumber();
             updateUI(true);
 
-            if (!isPaused){
+            if (!isPaused) {
                 mCountDownTimer.cancel();
                 startTimer();
             }
@@ -183,11 +199,13 @@ public class TimerService extends Service {
         mCountDownTimer = new CountDownTimer(mTimeLeft, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if (millisUntilFinished < 3000 && millisUntilFinished > 1000){
-                    low_player.start();
-                }
-                if (millisUntilFinished < 1000){
-                    high_player.start();
+                if(((TimerElement)elements.get(currentPos)).getMakeSound()) {
+                    if (millisUntilFinished < 4000 && millisUntilFinished > 1000) {
+                        low_player.start();
+                    }
+                    if (millisUntilFinished < 1000) {
+                        high_player.start();
+                    }
                 }
                 mTimeLeft = millisUntilFinished;
                 updateUI(false);
@@ -197,6 +215,10 @@ public class TimerService extends Service {
             public void onFinish() {
                 currentPos++;
                 if (currentPos < elements.size()){
+                    //TODO STOP ELEMENT
+                    if (elements.get(currentPos) instanceof UserInputElement){
+                        Log.v("STOP", "USERINPUT");
+                    }
                     mTimeLeft = elements.get(currentPos).getNumber();
                     updateUI(true);
                     startTimer();
@@ -214,8 +236,8 @@ public class TimerService extends Service {
     private void pauseTimer(){
         mCountDownTimer.cancel();
         isPaused = true;
-        //TODO update ui
     }
+
 
     @Override
     public void onDestroy() {

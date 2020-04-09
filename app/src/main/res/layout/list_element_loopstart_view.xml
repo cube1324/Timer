@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="105dp"
     android:background="@drawable/list_item_background"
     android:orientation="vertical">
 
@@ -21,7 +21,7 @@
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/repeat_view"
         app:layout_constraintEnd_toStartOf="@+id/edit_button"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -40,13 +40,13 @@
         android:id="@+id/edit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="13dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@null"
-        android:src="@drawable/ic_edit_30px"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_edit_30px" />
 
     <TextView
         android:id="@+id/text_view_repeat"
@@ -71,5 +71,16 @@
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/repeat_view"
         app:layout_constraintTop_toBottomOf="@+id/name_view" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_loop_black_40dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

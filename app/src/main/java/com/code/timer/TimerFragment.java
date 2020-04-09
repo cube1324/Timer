@@ -23,6 +23,7 @@ import com.code.timer.Support.LoopEndElement;
 import com.code.timer.Support.LoopStartElement;
 import com.code.timer.Support.Parse;
 import com.code.timer.Support.TimerElement;
+import com.code.timer.Support.UserInputElement;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.FileInputStream;
@@ -249,7 +250,7 @@ public class TimerFragment extends Fragment {
                     //Get  LoopEndElement
                     int related_pos = elements.indexOf(elements.get(pos).getRelatedElement());
 
-                    //set indent of Loopelement one back
+                    //set indent of Loop element one back
                     for (int i = pos + 1; i < related_pos; i++) {
                         elements.get(i).incDepthBy(-INDENT_INCREMENT);
                     }
@@ -322,11 +323,12 @@ public class TimerFragment extends Fragment {
         return v;
     }
 
-    public void onTimerEdit(int pos, String name, int minutes, int seconds) {
-        ListElement element = elements.get(pos);
+    public void onTimerEdit(int pos, String name, int minutes, int seconds, boolean mkSound) {
+        TimerElement element = (TimerElement) elements.get(pos);
         element.setName(name);
         long milliseconds = TimeUnit.MILLISECONDS.convert(seconds, TimeUnit.SECONDS) + TimeUnit.MILLISECONDS.convert(minutes, TimeUnit.MINUTES);
         element.setNumber(milliseconds);
+        element.setMakeSound(mkSound);
         adapter.notifyItemChanged(pos);
     }
 
@@ -356,6 +358,11 @@ public class TimerFragment extends Fragment {
        elements.add(end);
 
        adapter.notifyItemRangeInserted(elements.size()-2, 2);
+    }
+
+    public void addStop(){
+        elements.add(new UserInputElement("New Stop"));
+        adapter.notifyItemInserted(elements.size()-1);
     }
 
     public void startTimer(){
